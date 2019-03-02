@@ -11,6 +11,8 @@ import fi.haagahelia.bookstore.domain.Book;
 import fi.haagahelia.bookstore.domain.BookRepository;
 import fi.haagahelia.bookstore.domain.Category;
 import fi.haagahelia.bookstore.domain.CategoryRepository;
+import fi.haagahelia.bookstore.domain.User;
+import fi.haagahelia.bookstore.domain.UserRepository;
 
 
 @SpringBootApplication
@@ -22,7 +24,7 @@ public class BookstoreApplication {
 	}
 
 	@Bean
-	public CommandLineRunner bookDemo(BookRepository repository, CategoryRepository crepository) {
+	public CommandLineRunner bookDemo(BookRepository repository, CategoryRepository crepository, UserRepository urepository) {
 		return (args) -> {
 			crepository.save(new Category("Novel"));
 			crepository.save(new Category("Fantasy"));
@@ -37,6 +39,11 @@ public class BookstoreApplication {
 			repository.save(new Book("The Catcher in the Rye", "J.D. Salinger", 1991, 9788420674209L, 7.19, crepository.findByName("Novel").get(0)));
 			repository.save(new Book("One Hundred Years of Solitude", "Gabriel Garcia Marquez", 2006, 9780241971826L, 11.39, crepository.findByName("Novel").get(0)));
 			repository.save(new Book("When Breath Becomes Air", "Paul Kalanithi", 2016, 9781784701994L, 15.41, crepository.findByName("Biography").get(0)));
+			
+			User user1 = new User("user", "$2a$10$0YrHuKVOJILuFAj060eLRe.ITw87ZufRGcHERlk5CUPaziVdjrHJ2","user1@gmail.com", "USER");
+			User user2 = new User("admin", "$2a$10$0YrHuKVOJILuFAj060eLRe.ITw87ZufRGcHERlk5CUPaziVdjrHJ2","user2@gmail.com", "ADMIN");
+			urepository.save(user1);
+			urepository.save(user2);
 
 			for (Book book : repository.findAll()) {
 				log.info(book.toString());
